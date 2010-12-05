@@ -1,0 +1,5 @@
+To use the example run the WebSocket Server using the command:
+
+$ php ./engine.php
+
+Then simply change the domain in client.html to whatever your domain is and load the page.  It should connect and provide you and echo server using JavaScript and WebSockets.
