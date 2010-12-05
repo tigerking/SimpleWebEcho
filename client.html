@@ -1,0 +1,58 @@
+<html>
+<head>
+<style type="text/css">
+div#output {
+	width: 400px;
+	height: 400px;
+	border: 1px solid black;
+	color: black;
+	overflow: auto;
+}
+</style>
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function() {
+
+	var output = document.getElementById("output");
+	writeToOutput("+ Connecting...");
+
+	/** Create the WebSocket and set the needed handlers **/
+	var webSocket = new WebSocket("ws://www.synthable.com:1043");
+
+	webSocket.onopen = function() {
+		writeToOutput("+ Connected!");
+	};
+
+	webSocket.onmessage = function(response) {
+		writeToOutput("ECHO: "+ response.data);
+	};
+
+	webSocket.onclose = function() {
+		writeToOutput("- Disconnected");
+	}
+
+	document.getElementById("send").addEventListener("click", function(e) {
+		var text = document.getElementById("input");
+		webSocket.send(text.value);
+
+		writeToOutput("You: "+ text.value);
+
+		text.value = "";
+	}, false);
+
+}, false);
+
+function writeToOutput(string) {
+	var span = document.createElement("span");
+	span.innerHTML = string;
+	output.appendChild(span);
+	output.appendChild(document.createElement("br"));
+}
+</script>
+</head>
+<body>
+
+<div id="output"></div>
+<input type="text" id="input"/> <button id="send">Send</button>
+
+</body>
+</html>
